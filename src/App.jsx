@@ -22,15 +22,14 @@ function App() {
   const [errorMsg, seterrorMsg] = useState("");
   const [movieList, setmovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [trendingMovies, setTrendingMovies] = useState([]);
-
 
   // Debounce the search term to prevent making too many API requests
   // by waiting for the user to stop typing for 500ms
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
-  const fetchMovie = async (query='') => {
+  const fetchMovie = async (query = "") => {
     setIsLoading(true);
     seterrorMsg("");
     try {
@@ -52,14 +51,13 @@ function App() {
         return;
       }
       setmovieList(data.results || []);
-      
-      if(query && data.results.length>0){
-        await updateSearchCount(query,data.results[0]);
-      }
 
+      if (query && data.results.length > 0) {
+        await updateSearchCount(query, data.results[0]);
+      }
     } catch (error) {
       seterrorMsg("Error fetching movie");
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   };
@@ -71,56 +69,59 @@ function App() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchMovie(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
 
-  useEffect(()=>{
+  useEffect(() => {
     loadTrendingMovies();
-  },[])
+  }, []);
 
   return (
     <main>
       <div className="pattern" />
       <div className="wrapper">
-
         <header>
-          <img src="./hero.png" alt="" />
+          {/* <img src="./hero.png" alt="" /> */}
           <h1>
             Find <span className="text-gradient">Movies</span> you'll enjoy
             without hassle
           </h1>
+          {/* Trending Movies section */}
+          {trendingMovies.length > 0 && (
+            <section className="trending">
+              <h2>Trending now</h2>
+              <ul>
+                {trendingMovies.map((movie, index) => (
+                  <li key={movie.$id}>
+                    <p>{index + 1}</p>
+                    <img src={movie.poster_url} alt={movie.title} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           <Search searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
         </header>
 
-        {/* Trending Movies section */}
-        {trendingMovies.length>0 && (
-          <section className="trending">
-            <h2>Trending now</h2>
+        <section className="all-movies mt-10 text-center">
+          <h2>All movies</h2>
+          {isLoading ? (
+            <p className="text-white">
+              <Spinner />
+            </p>
+          ) : errorMsg ? (
+            <p className="text-red-50">{errorMsg}</p>
+          ) : (
             <ul>
-              {trendingMovies.map((movie,index)=>(
-                <li key={movie.$id}>
-                  <p>{index+1}</p>
-                  <img src={movie.poster_url} alt={movie.title} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <section className="all-movies">
-          <h2 >All movies</h2>
-          {isLoading ? (<p className="text-white"><Spinner /></p>):errorMsg?(<p className="text-red-50">{errorMsg}</p>):(
-            <ul>
-              {movieList.map((movie)=>(
-                <MovieCard key={movie.id} movie={movie} isLoading={isLoading}/>
+              {movieList.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} isLoading={isLoading} />
               ))}
             </ul>
           )}
         </section>
-
       </div>
     </main>
   );
