@@ -4,7 +4,7 @@ import { useDebounce } from "react-use";
 import Search from "./components/search";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
-import { updateSearchCount } from "./appwrite";
+import { getTrendingMovies, updateSearchCount } from "./appwrite";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -23,6 +23,8 @@ function App() {
   const [movieList, setmovieList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [trendingMovies, setTrendingMovies] = useState([]);
+
 
   // Debounce the search term to prevent making too many API requests
   // by waiting for the user to stop typing for 500ms
@@ -62,9 +64,22 @@ function App() {
     }
   };
 
+  const loadTrendingMovies = async () => {
+    try {
+      const movies = await getTrendingMovies();
+      setTrendingMovies(movies);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     fetchMovie(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
+
+  useEffect(()=>{
+    loadTrendingMovies();
+  },[])
 
   return (
     <main>
@@ -80,8 +95,23 @@ function App() {
           <Search searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
         </header>
 
+        {/* Trending Movies section */}
+        {trendingMovies.length>0 && (
+          <section className="trending">
+            <h2>Trending now</h2>
+            <ul>
+              {trendingMovies.map((movie,index)=>(
+                <li key={movie.$id}>
+                  <p>{index+1}</p>
+                  <img src={movie.poster_url} alt={movie.title} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section className="all-movies">
-          <h2 className="mt-[40px]">All movies</h2>
+          <h2 >All movies</h2>
           {isLoading ? (<p className="text-white"><Spinner /></p>):errorMsg?(<p className="text-red-50">{errorMsg}</p>):(
             <ul>
               {movieList.map((movie)=>(
