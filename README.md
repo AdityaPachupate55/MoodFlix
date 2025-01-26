@@ -1,5 +1,5 @@
 <div align="center">
-  <h3 align="center">DooFlix : A Movie Application</h3>
+  <h3 align="center">MoodFlix : A Movie Application</h3>
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>
@@ -15,11 +15,11 @@
 
 ## <a name="introduction">🤖 Introduction</a>
 
-Doodflix is a modern movie discovery platform designed to provide a seamless and enjoyable experience for movie enthusiasts. Built with React.js, it offers a sleek and responsive interface for browsing and discovering movies.
+Moodflix is a modern movie discovery platform designed to provide a seamless and enjoyable experience for movie enthusiasts. Built with React.js, it offers a sleek and responsive interface for browsing and discovering movies.
 
-The platform leverages Appwrite to power its backend operations, including a trending movies algorithm that tracks popular searches. Integrated with the TMDB API, Doodflix provides real-time access to a vast database of movies, enabling users to explore titles effortlessly. Styled with TailwindCSS, the application ensures a visually appealing and user-friendly experience.
+The platform leverages Appwrite to power its backend operations, including a trending movies algorithm that tracks popular searches. Integrated with the TMDB API, Moodflix provides real-time access to a vast database of movies, enabling users to explore titles effortlessly. Styled with TailwindCSS, the application ensures a visually appealing and user-friendly experience.
 
-Whether you're searching for trending movies or exploring your next watch, Doodflix combines functionality and style to elevate the movie discovery experience.
+Whether you're searching for trending movies or exploring your next watch, Moodflix combines functionality and style to elevate the movie discovery experience.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
@@ -57,7 +57,7 @@ Make sure you have the following installed on your machine:
 
 ```bash
 git clone https://github.com/JavaScript-Mastery-Pro/moodflix.git
-cd Doodflix
+cd Moodflix
 ```
 
 **Installation**
