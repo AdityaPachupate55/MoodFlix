@@ -115,7 +115,7 @@ function App() {
           {isLoading ? (<p className="text-white"><Spinner /></p>):errorMsg?(<p className="text-red-50">{errorMsg}</p>):(
             <ul>
               {movieList.map((movie)=>(
-                <MovieCard key={movie.id} movie={movie}/>
+                <MovieCard key={movie.id} movie={movie} isLoading={isLoading}/>
               ))}
             </ul>
           )}
